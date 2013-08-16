@@ -1,0 +1,8 @@
+# Ignore rules
+
+.idea
+*.pyc
+*~
+\#*
+*.tmp
+*.bak
