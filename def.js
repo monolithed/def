@@ -7,12 +7,14 @@
  * Contributors Dmitry A. Soshnikov, Alexander Abashkin
  *
  * Date 2010
+ *
  * @license MIT
  * @version 0.1.0
  *
  * @links
  *   https://github.com/DmitrySoshnikov/def.js
  *   https://github.com/tobeytailor/def.js
+ *   https://github.com/monolithed/def
  */
 
 void function (__global__)
