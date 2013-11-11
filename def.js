@@ -1,11 +1,14 @@
-/*
+// -*- coding: utf-8; indent-tabs-mode: nil; tab-width: 4; c-basic-offset: 4; -*-
+
+/**
  * def.js: A simple Ruby-style inheritance for JavaScript
  *
  * Original author Tobias Schneider
  * Contributors Dmitry A. Soshnikov, Alexander Abashkin
  *
- * @date 2010
+ * Date 2010
  * @license MIT
+ * @version 0.1.0
  *
  * @links
  *   https://github.com/DmitrySoshnikov/def.js
@@ -14,10 +17,7 @@
 
 void function (__global__)
 {
-	// Used to defer setup of __super__ and properties
-	var deferred;
-
-	var __proto__ = function () {};
+	'use strict';
 
 	var extend = function (source) {
 		var property,
@@ -34,22 +34,29 @@ void function (__global__)
 			}
 		}
 
+		// The constructor __init__ must be enumerable
+		Object.defineProperty(target, '__init__', {
+			value:      target.__init__,
+			enumerable: false
+		});
+
 		return this;
 	};
 
-
-	var def = function (context, __name__) {
-		__name__ || (__name__ = context, context = __global__);
+	/**
+	 * @interface
+	 */
+	var def = function (__parent__, __name__) {
+		__name__ || (__name__ = __parent__, __parent__ = __global__);
 
 		// Create __class__ on given context (defaults to global object)
-		var __class__ = context[__name__] = function __class__() {
+		var __class__ = __parent__[__name__] = function __class__() {
 
 			// Called as a constructor
-			if (context != this) {
+			if (__parent__ != this) {
 
 				// Allow the constructor to return a different __class__/object
-				return this.__init__ &&
-					this.__init__.apply(this, arguments);
+				return this.__init__ && this.__init__.apply(this, arguments);
 			}
 
 			// Called as a function - defer setup of __super__ and properties
@@ -69,22 +76,27 @@ void function (__global__)
 		};
 
 		// Called as function when not, inheriting from a __super__
-		deferred = function (props) {
+		var deferred = function (props) {
 			return __class__.extend(props);
 		};
 
+		/** @constructor */
+		var __proto__ = function () {};
 
 		// valueOf is called to setup inheritance from a __super__
 		deferred.valueOf = function () {
+			/** @typedef {__class__} */
 			var __super__ = deferred.__super__;
 
 			if (!__super__)
 				return __class__;
 
+			/** @typedef {__super__.prototype} */
 			__proto__.prototype = __super__.prototype;
 
 			__class__.prototype = Object.create(new __proto__, {
 				__main__: {
+					/** @lends {__class__.__init__} */
 					value: __proto__.prototype.__init__
 				},
 
@@ -135,5 +147,6 @@ void function (__global__)
 		return deferred;
 	};
 
+	/** @implements {def} */
 	__global__.def = def;
-}(this);
+}(new Function('return this')());
