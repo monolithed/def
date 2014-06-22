@@ -3,6 +3,7 @@
 ._*
 \#*
 
+.git
 *.pyc
 *.bak
 *.tmp
