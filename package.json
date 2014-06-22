@@ -1,0 +1,31 @@
+{
+	"name"       : "defjs",
+	"description": "A simple Ruby-style inheritance for JavaScript",
+	"version"    : "0.1.0",
+	"author"     : "Alexander Guinness <monolithed@gmail.com>",
+	"homepage"   : "https://github.com/monolithed/def",
+	"man"        : "README.md",
+
+	"keywords": [ "Object oriented programming", "OOP", "Inheritance", "Ruby-style"],
+
+	"repository": {
+		"type": "git",
+		"url" : "git@github.com:monolithed/def.git"
+	},
+
+	"bugs": {
+		"url": "https://github.com/monolithed/def/issues"
+	},
+
+	"engines": {
+		"node": ">=0.10.0",
+		"npm" : "1.2.14"
+	},
+
+	"licenses": [
+		{
+			"type": "MIT",
+			"url" : "LICENSE.txt"
+		}
+	]
+}
